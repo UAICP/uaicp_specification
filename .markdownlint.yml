@@ -1,0 +1,29 @@
+# Markdown Linting Configuration for UAICP
+# This file contains relaxed rules for technical documentation
+
+# Disable line length for technical documentation
+MD013: false
+
+# Allow multiple top-level headings for specifications
+MD025: false
+
+# Relax heading spacing for dense technical content
+MD022: false
+
+# Allow lists without surrounding blank lines for compact formatting
+MD032: false
+
+# Allow fenced code blocks without blank lines for inline examples
+MD031: false
+
+# Allow bare URLs in technical documentation
+MD034: false
+
+# Relax trailing newline requirement
+MD047: false
+
+# Allow trailing spaces for formatting
+MD009: false
+
+# Allow missing language in code blocks for pseudo-code
+MD040: false

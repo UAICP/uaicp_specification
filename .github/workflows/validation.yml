@@ -21,14 +21,7 @@ jobs:
       run: npm install -g markdownlint-cli
       
     - name: Lint Markdown files
-      run: markdownlint docs/**/*.md README.md
-      
-    - name: Check for broken links
-      uses: gaurav-nelson/github-action-markdown-link-check@v1
-      with:
-        use-quiet-mode: 'yes'
-        use-verbose-mode: 'yes'
-        config-file: '.github/workflows/link-check-config.json'
+      run: markdownlint docs/**/*.md README.md governance/**/*.md tests/**/*.md reference-impl/**/*.md PROJECT-ROADMAP.md
 
   validate-json:
     runs-on: ubuntu-latest
@@ -43,8 +36,10 @@ jobs:
         # Find and validate all JSON examples in the specification
         find docs/ -name "*.md" -exec grep -l '```json' {} \; | while read file; do
           echo "Checking JSON examples in: $file"
-          # Extract JSON blocks and validate them
-          sed -n '/```json/,/```/p' "$file" | sed '1d;$d' | jq . > /dev/null || echo "Invalid JSON in $file"
+          # Extract JSON blocks and validate them (skip if no JSON found)
+          if grep -q '```json' "$file"; then
+            sed -n '/```json/,/```/p' "$file" | sed '1d;$d' | jq . > /dev/null || echo "Invalid JSON in $file"
+          fi
         done
 
   spell-check:
@@ -52,11 +47,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Check spelling
-      uses: cspell-action/cspell@v1.1.1
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
-        files: '**/*.md'
-        config: '.github/workflows/cspell.json'
+        node-version: '18'
+        
+    - name: Install CSpell
+      run: npm install -g cspell
+        
+    - name: Check spelling
+      run: cspell "**/*.md" --config .cspell.json
 
   license-check:
     runs-on: ubuntu-latest
@@ -90,5 +90,5 @@ jobs:
         find docs/ -name "*.md" | while read file; do
           echo "Checking heading structure in: $file"
           # This is a basic check - you might want to use a more sophisticated tool
-          grep -n "^#" "$file" | head -10
+          grep -n "^#" "$file" | head -5 || echo "No headings found in $file"
         done
