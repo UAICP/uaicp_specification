@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Community Forum
+    url: https://community.uaicp.org
+    about: Ask and answer questions about UAICP implementation and usage
+  - name: Security Issues
+    url: mailto:security@uaicp.org
+    about: Please report security vulnerabilities via email

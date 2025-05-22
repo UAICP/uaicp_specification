@@ -1,0 +1,171 @@
+name: UAICP Standard CI/CD Pipeline
+description: Standard CI/CD pipeline for UAICP projects
+iconName: octicon-workflow
+categories:
+  - ci
+  - cd
+  - deployment
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    name: Code Quality & Validation
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Run type checking
+      run: npm run type-check
+      continue-on-error: true
+    
+    - name: Validate configuration files
+      run: |
+        # Add validation commands specific to your project
+        echo "Add project-specific validations here"
+
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Analysis
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run npm audit
+      run: npm audit --audit-level high
+      continue-on-error: true
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload security scan results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  test:
+    runs-on: ubuntu-latest
+    name: Test Suite
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/lcov.info
+        fail_ci_if_error: false
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build & Package
+    needs: [lint-and-validate, test]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: |
+          dist/
+          build/
+          .next/
+        retention-days: 30
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    name: Deploy to Staging
+    needs: [build, security-scan]
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+    
+    - name: Deploy to staging
+      run: |
+        # Add deployment commands for your staging environment
+        echo "Deploy to staging environment"
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    name: Deploy to Production
+    needs: [build, security-scan]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+    
+    - name: Deploy to production
+      run: |
+        # Add deployment commands for your production environment
+        echo "Deploy to production environment"
+    
+    - name: Notify deployment
+      uses: 8398a7/action-slack@v3
+      if: always()
+      with:
+        status: ${{ job.status }}
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        text: 'Production deployment completed'

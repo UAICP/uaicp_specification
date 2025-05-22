@@ -1,0 +1,99 @@
+name: RFC (Request for Comments)
+description: Propose a significant change or addition to the UAICP specification
+title: "[RFC] "
+labels: ["rfc", "discussion", "specification"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to propose significant changes to the UAICP specification that require community discussion.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief summary of the proposed change
+      placeholder: Provide a concise summary of the proposal...
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this change needed? What problem does it solve?
+      placeholder: Explain the motivation behind this proposal...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope of Change
+      description: How significant is this change?
+      options:
+        - Minor (backward compatible enhancement)
+        - Major (breaking change)
+        - Core architecture change
+        - New feature addition
+        - Specification clarification
+    validations:
+      required: true
+
+  - type: textarea
+    id: detailed-design
+    attributes:
+      label: Detailed Design
+      description: Provide detailed design of the proposed change
+      placeholder: |
+        Include:
+        - Technical specifications
+        - API changes
+        - Protocol modifications
+        - Implementation details
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other approaches were considered?
+      placeholder: Describe alternative approaches and why they were not chosen...
+    validations:
+      required: false
+
+  - type: textarea
+    id: backwards-compatibility
+    attributes:
+      label: Backwards Compatibility
+      description: How does this change affect backwards compatibility?
+      placeholder: Describe any backwards compatibility concerns...
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-plan
+    attributes:
+      label: Implementation Plan
+      description: How will this change be implemented?
+      placeholder: |
+        Include:
+        - Timeline
+        - Dependencies
+        - Migration path
+        - Testing strategy
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: RFC Checklist
+      options:
+        - label: I have searched existing RFCs and issues
+          required: true
+        - label: I have considered the impact on existing implementations
+          required: true
+        - label: I am prepared to champion this RFC through the review process
+          required: true

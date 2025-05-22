@@ -1,0 +1,42 @@
+# UAICP Specification Code Owners
+# This file defines who should review specific parts of the codebase
+
+# Global owners - these users will be requested for review on all PRs
+* @rishirandhawa
+
+# Specification documents
+/docs/ @rishirandhawa @specification-team
+/docs/specification/ @rishirandhawa @specification-team @technical-reviewers
+
+# Governance files
+/governance/ @rishirandhawa @governance-team
+/governance/GOVERNANCE.md @rishirandhawa @governance-team
+/governance/CHARTER.md @rishirandhawa @governance-team
+
+# Reference implementation
+/reference-impl/ @rishirandhawa @implementation-team
+/reference-impl/src/core/ @rishirandhawa @core-developers
+/reference-impl/tests/ @rishirandhawa @qa-team
+
+# Patent-protected components (require additional review)
+/reference-impl/src/adaptive-router/ @rishirandhawa @patent-reviewers @legal-team
+/reference-impl/src/protocol-translation/ @rishirandhawa @patent-reviewers @legal-team
+
+# Configuration files
+/.github/ @rishirandhawa @devops-team
+/.github/workflows/ @rishirandhawa @devops-team
+/package.json @rishirandhawa @devops-team
+/package-lock.json @rishirandhawa @devops-team
+
+# Documentation
+/README.md @rishirandhawa @documentation-team
+/CONTRIBUTING.md @rishirandhawa @documentation-team
+/LICENSE.md @rishirandhawa @legal-team
+
+# Test configurations
+/tests/ @rishirandhawa @qa-team
+/.github/workflows/validation.yml @rishirandhawa @qa-team @devops-team
+
+# Security-sensitive files
+/.github/workflows/security.yml @rishirandhawa @security-team
+/security/ @rishirandhawa @security-team

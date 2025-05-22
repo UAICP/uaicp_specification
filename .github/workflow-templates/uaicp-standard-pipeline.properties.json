@@ -1,0 +1,7 @@
+{
+  "name": "UAICP Standard CI/CD Pipeline",
+  "description": "A comprehensive CI/CD pipeline template for UAICP projects with security scanning, testing, and deployment stages",
+  "iconName": "octicon-workflow",
+  "categories": ["ci", "cd", "deployment", "security"],
+  "filePatterns": ["package.json", "*.js", "*.ts", "*.jsx", "*.tsx"]
+}

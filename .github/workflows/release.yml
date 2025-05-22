@@ -1,0 +1,84 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
+        type: string
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    name: Create Release
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Generate changelog
+      id: changelog
+      run: |
+        # Generate changelog from commits since last tag
+        LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+        if [ -z "$LAST_TAG" ]; then
+          COMMITS=$(git log --pretty=format:"- %s (%h)" --no-merges)
+        else
+          COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+        fi
+        
+        echo "changelog<<EOF" >> $GITHUB_OUTPUT
+        echo "$COMMITS" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+    
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: UAICP Specification ${{ github.ref_name }}
+        body: |
+          ## Changes in this release
+          
+          ${{ steps.changelog.outputs.changelog }}
+          
+          ## Installation
+          
+          You can download the specification documents from the assets below.
+          
+          ## Documentation
+          
+          Visit our documentation at [uaicp.org](https://uaicp.org) for detailed information.
+        draft: false
+        prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+
+  publish-docs:
+    runs-on: ubuntu-latest
+    name: Publish Documentation
+    needs: create-release
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Build documentation site
+      run: |
+        # Add commands to build documentation if needed
+        echo "Building documentation..."
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs

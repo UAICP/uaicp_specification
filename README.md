@@ -1,6 +1,16 @@
-# Universal AI Communication Protocol (UAICP)
+# Universal AI Communication Protocol (UAICP) Specification
 
 The **Universal AI Communication Protocol (UAICP)** is an open meta-standard framework designed to enable seamless discovery, integration, and communication between diverse AI systems across different providers and platforms. Rather than replacing existing proprietary protocols, UAICP provides a universal translation and discovery layer that leverages the strengths of established standards while ensuring consistent interoperability across the AI ecosystem.
+
+## Repository Overview
+
+This repository contains the technical specification, reference implementations, and governance documents for UAICP. For the public website and documentation portal, visit [uaicp/uaicp_website](https://github.com/uaicp/uaicp_website).
+
+## UAICP Project Repositories
+
+- **[uaicp/uaicp_specification](https://github.com/uaicp/uaicp_specification)** (this repository) - Technical specification and reference implementations
+- **[uaicp/uaicp_website](https://github.com/uaicp/uaicp_website)** - Official website and documentation portal
+- **Website**: [https://uaicp.org](https://uaicp.org)
 
 ## Overview
 
@@ -52,7 +62,8 @@ For more information, please refer to the [IP Disclosure section](docs/specifica
 
 UAICP is developed as an open standard under the stewardship of the AI Interoperability Foundation.
 
-- **GitHub Issues**: For bug reports and feature requests
+- **GitHub Organization**: [https://github.com/uaicp](https://github.com/uaicp)
+- **GitHub Issues**: [Issues](https://github.com/uaicp/uaicp_specification/issues) for bug reports and feature requests
 - **Community Forum**: https://community.uaicp.org
 - **Slack Workspace**: https://uaicp.slack.com (request an invite on the forum)
 - **Mailing List**: announcements@uaicp.org
@@ -60,6 +71,10 @@ UAICP is developed as an open standard under the stewardship of the AI Interoper
 ## Contributing
 
 We welcome contributions from the community! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more information.
+
+### Related Repositories
+
+If you're interested in contributing to the website or documentation portal, please visit [uaicp/uaicp_website](https://github.com/uaicp/uaicp_website).
 
 ## License
 

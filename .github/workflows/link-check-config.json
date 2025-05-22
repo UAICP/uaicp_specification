@@ -1,0 +1,20 @@
+{
+  "replacementPatterns": [
+    {
+      "pattern": "^https://uaicp\\.org",
+      "replacement": "https://uaicp.org"
+    }
+  ],
+  "ignorePatterns": [
+    {
+      "pattern": "^https://community\\.uaicp\\.org"
+    },
+    {
+      "pattern": "^mailto:"
+    }
+  ],
+  "timeout": "20s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackHTTPStatus": [400, 401, 403, 404, 500, 502, 503, 504]
+}

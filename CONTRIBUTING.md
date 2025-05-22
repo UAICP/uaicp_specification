@@ -1,6 +1,10 @@
-# Contributing to UAICP
+# Contributing to UAICP Specification
 
 Thank you for your interest in contributing to the Universal AI Communication Protocol! This document provides guidelines and instructions for contributing to the UAICP specification and reference implementations.
+
+## Repository Overview
+
+This repository contains the technical specification and reference implementations. For website contributions, please visit [uaicp/uaicp_website](https://github.com/uaicp/uaicp_website).
 
 ## Code of Conduct
 
@@ -27,7 +31,7 @@ When contributing to these specific components, please be aware that your contri
 
 ### 1. Finding Issues to Work On
 
-- Browse the [issues list](https://github.com/ai-interoperability-foundation/uaicp/issues) to find tasks tagged as "good first issue" or "help wanted"
+- Browse the [issues list](https://github.com/uaicp/uaicp_specification/issues) to find tasks tagged as "good first issue" or "help wanted"
 - Join the community discussion on our [forum](https://community.uaicp.org) to discuss potential contributions
 - Review the [project roadmap](ROADMAP.md) to understand current priorities
 
@@ -44,7 +48,7 @@ When contributing to these specific components, please be aware that your contri
 ### 3. Submitting a Pull Request
 
 1. Push your changes to your fork: `git push origin feature/your-feature-name`
-2. Open a pull request against the `main` branch of the UAICP repository
+2. Open a pull request against the `main` branch of the UAICP specification repository
 3. Fill out the pull request template with all required information
 4. Sign the CLA when prompted
 5. Wait for a maintainer to review your PR
@@ -88,9 +92,15 @@ See our [Developer Guide](docs/developer-guide.md) for instructions on setting u
 ## Communication Channels
 
 - **GitHub Issues**: For bug reports and feature requests
+- **GitHub Organization**: [https://github.com/uaicp](https://github.com/uaicp)
 - **Community Forum**: For discussion about usage and development
 - **Slack Workspace**: For real-time communication (request an invite on the forum)
 - **Mailing List**: For major announcements and discussions
+
+## Related Contributions
+
+- **Website contributions**: [uaicp/uaicp_website](https://github.com/uaicp/uaicp_website)
+- **Specification contributions**: [uaicp/uaicp_specification](https://github.com/uaicp/uaicp_specification) (this repository)
 
 ## License
 

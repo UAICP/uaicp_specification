@@ -1,0 +1,116 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  validate-specification:
+    runs-on: ubuntu-latest
+    name: Validate Specification Documents
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm install -g markdownlint-cli
+        npm install -g markdown-link-check
+        npm install -g cspell
+    
+    - name: Lint Markdown files
+      run: markdownlint docs/ *.md
+    
+    - name: Check links in markdown files
+      run: |
+        find . -name "*.md" -not -path "./node_modules/*" -exec markdown-link-check {} \;
+    
+    - name: Spell check
+      run: cspell "**/*.md" --config .github/workflows/cspell.json
+    
+    - name: Validate JSON schemas
+      run: |
+        find . -name "*.json" -not -path "./node_modules/*" -exec python -m json.tool {} \; > /dev/null
+
+  test-reference-implementation:
+    runs-on: ubuntu-latest
+    name: Test Reference Implementation
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      working-directory: ./reference-impl
+      run: npm ci
+    
+    - name: Run tests
+      working-directory: ./reference-impl
+      run: npm test
+    
+    - name: Run integration tests
+      working-directory: ./reference-impl
+      run: npm run test:integration
+
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Scan
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  compliance-check:
+    runs-on: ubuntu-latest
+    name: Compliance Check
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check for required files
+      run: |
+        files=("README.md" "LICENSE.md" "CONTRIBUTING.md")
+        for file in "${files[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "Required file $file is missing"
+            exit 1
+          fi
+        done
+    
+    - name: Validate governance structure
+      run: |
+        if [ ! -d "governance" ]; then
+          echo "Governance directory is missing"
+          exit 1
+        fi
+        
+        if [ ! -f "governance/GOVERNANCE.md" ]; then
+          echo "Governance documentation is missing"
+          exit 1
+        fi
