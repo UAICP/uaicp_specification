@@ -1,0 +1,134 @@
+name: Community Engagement Automation
+
+on:
+  issues:
+    types: [opened, closed]
+  pull_request:
+    types: [opened, merged, closed]
+  discussion:
+    types: [created]
+
+jobs:
+  welcome-contributor:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
+    steps:
+      - name: Welcome new contributors to UAICP Specification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Check if this is user's first contribution
+            const { data: contributions } = await github.rest.repos.listContributors({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            const isFirstTime = !contributions.find(c => c.login === context.actor);
+            
+            if (isFirstTime) {
+              const welcomeMessage = `
+              🎉 **Welcome to UAICP Specification Repository!** 
+              
+              Thank you for your ${context.eventName === 'issues' ? 'issue' : 'pull request'}! 
+              
+              This appears to be your first contribution to the UAICP specification. Here are some helpful resources:
+              
+              - 📖 [Full Documentation](https://uaicp.org/docs)
+              - 📋 [UAICP Specification](https://uaicp.org/docs/specification/introduction)
+              - 🤝 [Contributing Guide](https://github.com/UAICP/uaicp_specification/blob/main/CONTRIBUTING.md)
+              - 💬 [Community Discussions](https://github.com/UAICP/uaicp_specification/discussions)
+              - 🏛️ [Governance](https://github.com/UAICP/uaicp_specification/blob/main/governance/README.md)
+              - 🧑‍💻 [Slack Workspace](https://uaicp.slack.com)
+              
+              **Contribution Focus Areas:**
+              - 📝 Specification development and refinement
+              - 🧪 Reference implementations
+              - 🔬 Testing frameworks
+              - 📚 Documentation improvements
+              - 🏛️ Governance and process
+              
+              A maintainer will review this soon. Feel free to join our community chat if you have questions about the protocol specification!
+              `;
+              
+              if (context.eventName === 'issues') {
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: welcomeMessage
+                });
+              } else {
+                github.rest.pulls.createReview({
+                  pull_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: welcomeMessage,
+                  event: 'COMMENT'
+                });
+              }
+            }
+
+  spec-change-notification:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true
+    steps:
+      - name: Notify on specification changes
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prTitle = context.payload.pull_request.title;
+            const prNumber = context.payload.pull_request.number;
+            const prAuthor = context.payload.pull_request.user.login;
+            
+            console.log(`🔄 Specification updated by ${prAuthor}`);
+            console.log(`📋 PR #${prNumber}: ${prTitle}`);
+            
+            // Check if this is a specification change
+            const specFiles = [
+              'docs/specification/',
+              'governance/',
+              'reference-impl/',
+              'tests/'
+            ];
+            
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            const specChanges = files.filter(file => 
+              specFiles.some(path => file.filename.startsWith(path))
+            );
+            
+            if (specChanges.length > 0) {
+              console.log(`📝 ${specChanges.length} specification files changed`);
+              
+              // Could trigger website rebuild via repository dispatch
+              // await github.rest.repos.createDispatchEvent({
+              //   owner: 'UAICP',
+              //   repo: 'uaicp_website',
+              //   event_type: 'spec-updated',
+              //   client_payload: {
+              //     pr_number: prNumber,
+              //     pr_title: prTitle,
+              //     changed_files: specChanges.map(f => f.filename)
+              //   }
+              // });
+            }
+
+  discussion-engagement:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'created'
+    steps:
+      - name: Acknowledge new discussions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('📢 New discussion created in UAICP specification repo');
+            console.log(`👤 Author: ${context.payload.discussion.user.login}`);
+            console.log(`💭 Title: ${context.payload.discussion.title}`);
+            
+            // Could add automatic labeling, notifications, etc.
+            // For now, just log the activity
