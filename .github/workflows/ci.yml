@@ -3,10 +3,10 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, master]
+    branches: [main]
 
 jobs:
-  checks:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,10 +15,36 @@ jobs:
       - name: Validate JSON schemas
         run: |
           for file in schema/*.json; do
-            echo "Validated $file"
             jq empty "$file"
+            echo "Validated $file"
           done
 
-      - name: Validate markdown links (basic)
+      - name: Validate markdown files
         run: |
-          echo "Basic validation complete"
+          test -f README.md
+          test -f docs/specification/specification.md
+          test -f tests/COMPLIANCE-TESTS.md
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Basic secret and unsafe pattern checks
+        run: |
+          ! rg -n "AKIA[0-9A-Z]{16}|BEGIN (RSA|EC|OPENSSH) PRIVATE KEY|password\s*=\s*['\"][^'\"]+['\"]" . --glob '!.git/*'
+
+  compliance-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify baseline governance files
+        run: |
+          test -f CODE_OF_CONDUCT.md
+          test -f SECURITY.md
+          test -f .github/CODEOWNERS
+          test -f .github/pull_request_template.md
+          test -f NOTICE
