@@ -1,0 +1,31 @@
+{
+  "name": "@uaicp/uaicp_specification",
+  "version": "0.1.0-draft.1",
+  "description": "UAICP specification: reliability contract for agentic workflow integrity and control",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm install",
+    "test": "echo \"No executable tests in this repository yet\"",
+    "lint": "echo \"Linting not configured yet\"",
+    "build": "echo \"Build not configured for docs-only repository\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UAICP/uaicp_specification.git"
+  },
+  "keywords": [
+    "uaicp",
+    "agent",
+    "reliability",
+    "orchestration",
+    "verification",
+    "audit",
+    "governance"
+  ],
+  "author": "UAICP Community",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/UAICP/uaicp_specification/issues"
+  },
+  "homepage": "https://uaicp.org"
+}

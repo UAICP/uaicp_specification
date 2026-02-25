@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uaicp.org/schema/evidence-object.schema.json",
+  "title": "UAICP Evidence Object",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "evidence_type",
+    "source",
+    "collected_at"
+  ],
+  "properties": {
+    "evidence_id": { "type": "string", "minLength": 1 },
+    "evidence_type": {
+      "type": "string",
+      "enum": ["tool_result", "source_citation", "test_report", "approval_token", "custom"]
+    },
+    "source": { "type": "string", "minLength": 1 },
+    "hash": { "type": "string" },
+    "collected_at": { "type": "string", "format": "date-time" },
+    "payload": {
+      "description": "Opaque payload serialized by implementation",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    }
+  },
+  "additionalProperties": true
+}

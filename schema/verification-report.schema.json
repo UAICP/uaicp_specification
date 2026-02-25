@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uaicp.org/schema/verification-report.schema.json",
+  "title": "UAICP Verification Report",
+  "type": "object",
+  "required": [
+    "report_id",
+    "request_id",
+    "status",
+    "checks"
+  ],
+  "properties": {
+    "report_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["pass", "fail", "partial"]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check_id", "result"],
+        "properties": {
+          "check_id": { "type": "string", "minLength": 1 },
+          "result": {
+            "type": "string",
+            "enum": ["pass", "fail", "skip"]
+          },
+          "details": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": true
+}

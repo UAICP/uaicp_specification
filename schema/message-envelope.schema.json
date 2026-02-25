@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uaicp.org/schema/message-envelope.schema.json",
+  "title": "UAICP Message Envelope",
+  "type": "object",
+  "required": [
+    "uaicp_version",
+    "request_id",
+    "trace_id",
+    "state",
+    "timestamp",
+    "identity"
+  ],
+  "properties": {
+    "uaicp_version": { "type": "string" },
+    "request_id": { "type": "string", "minLength": 1 },
+    "trace_id": { "type": "string", "minLength": 1 },
+    "state": {
+      "type": "string",
+      "enum": ["intake", "plan", "execute", "verify", "deliver", "fail_safe"]
+    },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "identity": {
+      "type": "object",
+      "required": ["agent_id", "owner_id", "control_class"],
+      "properties": {
+        "agent_id": { "type": "string", "minLength": 1 },
+        "owner_id": { "type": "string", "minLength": 1 },
+        "control_class": {
+          "type": "string",
+          "enum": ["autonomous", "human-supervised", "human-directed"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
