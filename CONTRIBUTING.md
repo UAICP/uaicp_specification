@@ -10,6 +10,18 @@ Thanks for contributing to UAICP.
 - reference implementation correctness
 - documentation clarity for adopters
 
+## Workstreams
+
+Use these workstream labels when opening or selecting issues:
+
+- `workstream/spec`: normative text, invariants, reason codes
+- `workstream/schema`: schema contracts and compatibility fixtures
+- `workstream/conformance`: conformance harness and report format
+- `workstream/adapters`: framework adapter guidance and mappings
+- `workstream/docs`: onboarding, roadmap, and contributor docs
+
+Issue labels `roadmap` and `good first issue` are used for prioritization and onboarding.
+
 ## Workflow
 
 1. Open an issue describing the change.
@@ -19,6 +31,15 @@ Thanks for contributing to UAICP.
    - design intent
    - compatibility impact
    - verification steps performed
+
+## Definition of Done
+
+A contribution is complete when:
+
+- issue scope is satisfied and linked in PR
+- related docs/schemas/tests are updated
+- CI checks pass
+- backward compatibility impact is documented
 
 ## Rules
 

@@ -1,0 +1,43 @@
+name: Conformance Gap
+description: Report a gap between implementation behavior and UAICP conformance.
+title: "[Conformance] "
+labels: ["workstream/conformance"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: UAICP Version
+      placeholder: v0.1-draft
+    validations:
+      required: true
+
+  - type: textarea
+    id: failing-area
+    attributes:
+      label: Failing Area
+      description: Which conformance category fails?
+      placeholder: State transitions, evidence gating, verification, policy gate, or audit.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Steps, inputs, and observed behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should have happened under UAICP?
+    validations:
+      required: true
+
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Evidence Artifacts
+      description: Attach report excerpts, logs, or trace IDs if available.

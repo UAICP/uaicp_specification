@@ -2,6 +2,13 @@
 
 UAICP is designed to run under existing orchestrators.
 
+## Why This Layer Is Separate
+
+Frameworks optimize for workflow composition and runtime ergonomics.
+UAICP optimizes for portable reliability controls and conformance.
+
+This separation allows teams to keep their framework investment while applying one reliability contract across heterogeneous stacks.
+
 ## Integration Pattern
 
 1. Keep framework planner and tool abstractions.
@@ -23,3 +30,12 @@ UAICP is designed to run under existing orchestrators.
 - verifier integration point
 - policy gate hook
 - minimal conformance test run
+
+## Frameworks Covered
+
+Initial guides cover:
+
+- LangGraph
+- Microsoft Agent Framework style runtimes (via generic adapter contract and OpenAI Agents SDK example)
+- AutoGen
+- CrewAI

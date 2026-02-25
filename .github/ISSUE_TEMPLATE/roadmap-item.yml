@@ -1,0 +1,45 @@
+name: Roadmap Item
+description: Propose or track a roadmap deliverable.
+title: "[Roadmap] "
+labels: ["roadmap"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What reliability gap does this roadmap item close?
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Deliverable
+      description: What concrete output should exist when this is complete?
+      placeholder: Spec section, schema update, harness artifact, adapter example, etc.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: workstream
+    attributes:
+      label: Workstream
+      options:
+        - workstream/spec
+        - workstream/schema
+        - workstream/conformance
+        - workstream/adapters
+        - workstream/docs
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: Use testable criteria.
+      placeholder: |
+        - [ ] Criteria 1
+        - [ ] Criteria 2
+    validations:
+      required: true

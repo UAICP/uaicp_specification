@@ -9,6 +9,8 @@ The contract ensures that systems either:
 - complete actions with required evidence and verification, or
 - fail safe with explicit uncertainty
 
+UAICP is framework-neutral. It standardizes control semantics that can be embedded under existing orchestration frameworks.
+
 ## 2. Roles
 
 - **Orchestrator**: deterministic runtime that owns state and transitions.
@@ -93,3 +95,13 @@ A system is UAICP-conformant at baseline if it:
 - major: breaking contract changes
 - minor: backward-compatible contract extensions
 - patch: clarifications and errata
+
+## 9. Relationship to Framework Runtimes
+
+UAICP is a decoupled governance layer, not an orchestration framework.
+
+- Framework runtimes own graph/task execution and tool routing.
+- UAICP owns invariant enforcement, evidence contracts, verification contracts, and policy gates.
+- Implementations may use any model vendor and orchestration stack as long as UAICP conformance is preserved.
+
+This separation is required for portability across enterprise environments with mixed tooling.

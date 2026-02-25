@@ -1,0 +1,44 @@
+name: Specification Change
+description: Propose a change to normative UAICP behavior.
+title: "[Spec] "
+labels: ["workstream/spec"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Proposed Change
+      description: What exact behavior is being changed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this required for reliability or portability?
+    validations:
+      required: true
+
+  - type: textarea
+    id: contract-impact
+    attributes:
+      label: Contract Impact
+      description: What schema, invariant, reason-code, or state-transition changes are needed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility
+      description: Backward compatible? If not, describe migration steps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification Plan
+      description: What tests or conformance checks will prove this works?
+    validations:
+      required: true
