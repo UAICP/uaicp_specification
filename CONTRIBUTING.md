@@ -41,6 +41,12 @@ A contribution is complete when:
 - CI checks pass
 - backward compatibility impact is documented
 
+## Local Private Notes
+
+Use `.private/` for local drafts, customer notes, and internal planning artifacts that should never be published.
+
+Only `.private/.gitkeep` is tracked. Everything else under `.private/` is ignored by git.
+
 ## Rules
 
 - No unverifiable claims in normative docs.

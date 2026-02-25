@@ -115,3 +115,7 @@ coverage/
 *.temp
 .*.swp
 *~
+
+# Local private working notes (never commit)
+.private/*
+!.private/.gitkeep
